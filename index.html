@@ -1,17 +1,168 @@
-<!DOCTYPE html>
 <html>
-<head>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Creador Formularios Web Elinv</title>
+    <link rel="stylesheet" type="text/css" href="./css/estilos.css" />
+
+    <script src="./scripts/mover.js"></script>
+    <script src="./scripts/funcGenerales.js"></script>
+    <script src="./scripts/funcionesBotones.js"></script>
+    <script src="./scripts/crearElementos.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="./css/prettify.css" />
+    <script src="./scripts/prettify.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="./css/jquery-ui.css" />
+    <script type="text/javascript" src="./scripts/jquery-1.9.1.js"></script>
+    <script type="text/javascript" src="./scripts/jquery-ui.js"></script>
+  </head>
+
+  <body>
+    <button
+      style="display: table; margin: 0 auto; z-index:200;" 
+      oncontextmenu="textAreaId=1;"
+      contextmenu="creacion"
+    >
+      Elinv creador de formularios
+    </button>
+
+    <!-- AREA DE DESARROLLO DE NUESTRO FORMULARIO -->
+    <div class="recuadro" id="uno">
+      <div id="contenedor1"></div>
+    </div>
+
+    <!-- AREA DE RESULTADO GRÁFICO
+    <div class='recuadro' id="dos">
+        <div id="contenedor2" style="position: relative;">
+        </div>
+    </div>
+    <br> -->
+
+    <!-- AREA DE CONTROLES A AGREGAR A NUESTRO FORM
+    <div class='recuadro' id="tres">
+    </div> -->
+
+    <!-- AREA DE CODIGO FUENTE RESULTANTE
+    <div class='recuadro' id="cuatro">
+        <div id="contenedor4">
+            <pre class="prettyprint" id="sourceCodeElinv"></pre>
+        </div>
+    </div> -->
+
+    <!-- Menu para la creación -->
+    <menu type="context" id="creacion">
+      <menu label="✏️ Creación de Elementos">
+        <menuitem 
+          label="📐 Button" 
+          onclick="crearButton('Cancel')"></menuitem>
+        <menuitem
+          label="📐 Fieldset"
+          onclick="crearFieldset('Label Fieldset')"
+        ></menuitem>
+        <menuitem
+          label="📐 Textarea"
+          onclick="crearTextarea('Label Textarea')"
+        ></menuitem>
+        <menuitem
+          label="📐 Imagen"
+          onclick="crearIMG('Mi imagen')"
+        ></menuitem>                
+        <menuitem
+          label="📐 Labels"
+          onclick="crearLabelText('Mi label text')"
+        ></menuitem>
+        <menuitem
+          label="📐 Inputs Type"
+          onclick="crearInputs('label Input')"
+        ></menuitem>
+        <menuitem
+          label="📐 Form Premoldeados"
+          onclick="crearFormPreMold('Form Premoldeados')"
+        ></menuitem>
+      </menu>
+      <menu label="✏️ Creación de Elementos(Config)">
+        <menuitem 
+          label="📐 Ver" 
+          onclick="ver('')"></menuitem>
+        <menuitem 
+          label="📐 Nuevo" 
+          onclick="nuevo('')"></menuitem>
+        <!-- -<menuitem label="Copiar Resultado" onclick="copiarResult('')" -->
+        ></menuitem>
+      </menu>
+    </menu>
+
+    <!-- Menu para los textarea -->
+    <menu type="context" id="moveRecize">
+      <menu label="🔵 Textarea Option">
+        <menuitem
+          label="🔘 Recize"
+          onclick="document.getElementById(textAreaId).classList.toggle('miClase')"
+        >
+        </menuitem>
+        <menuitem
+          label="🔘 Move"
+          onclick="document.getElementById(textAreaId).classList.toggle('miClase')"
+        >
+        </menuitem>
+      </menu>
+    </menu>
+
+    <!-- Menu para Fieldset y su posicionamiento z-index -->
+    <menu type="context" id="zindexPos">
+      <menu label="🔵 Fieldset => Al frente o atrás">
+        <menuitem
+          label="🔶 Al frente"
+          onclick="document.getElementById(zindexElemId).style.zIndex=parseInt(document.getElementById(zindexElemId).style.zIndex)+1;"
+        >
+        </menuitem>
+        <menuitem
+          label="🔶 Atrás"
+          onclick="document.getElementById(zindexElemId).style.zIndex=parseInt(document.getElementById(zindexElemId).style.zIndex)-1;"
+        >
+        </menuitem>
+        <menuitem
+          label="🔶 Recize"
+          onclick="recizeFieldset(zindexElemId)"
+        ></menuitem>    
+      </menu>
+    </menu>
+
+    <!-- Menu para el tag img -->
+    <menu type="context" id="imgPosNew">
+      <menu label="🔵 Imagen => Al frente o atrás">
+        <menuitem
+          label="🔷 Al frente"
+          onclick="document.getElementById(imgPos).style.zIndex=parseInt(document.getElementById(imgPos).style.zIndex)+1;"
+        >
+        </menuitem>
+        <menuitem
+          label="🔷 Atrás"
+          onclick="document.getElementById(imgPos).style.zIndex=parseInt(document.getElementById(imgPos).style.zIndex)-1;"
+        >
+        </menuitem>
+        <menuitem
+          label="🔷 Recize"
+          onclick="recizeImg(imgPos)"
+        ></menuitem>    
+      </menu>
     
-    <meta charset="utf-8" />
-    <title>Título del documento</title>
-
-    <meta content="Nombre del Autor" name="Elinv" />
-    <meta content="Tunel Elinv para estudio" name="description" />
-    <meta content="nodejs, tunel, elinv" name="keywords" />
-</head>
-
-<body>
-	<h1>ELINV</h1>
-</body>
-
+    <!-- Menu para el tag button -->
+    <menu type="context" id="butPosNew">
+      <menu label="🔵 Button => Al frente o atrás">
+        <menuitem
+          label="🔷 Al frente"
+          onclick="document.getElementById(butPosId).style.zIndex=parseInt(document.getElementById(butPosId).style.zIndex)+1;"
+        >
+        </menuitem>
+        <menuitem
+          label="🔷 Atrás"
+          onclick="document.getElementById(butPosId).style.zIndex=parseInt(document.getElementById(butPosId).style.zIndex)-1;"
+        >
+        </menuitem> 
+      </menu>      
+    </menu>
+    <!-- Destino de los Diálogos -->
+    <div id="dialogoDest"></div>
+  </body>
 </html>

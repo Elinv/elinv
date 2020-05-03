@@ -1,0 +1,47 @@
+body,
+html {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  background-color: silver;
+}
+
+.objMovible {
+  cursor: pointer;
+  z-index: 1;
+}
+
+.prettyprint {
+  font-size: 20px;
+}
+
+pre {
+  white-space: pre-wrap;
+  border: none;
+}
+
+.recuadro {
+  position: relative;
+  border: 1px solid black;
+  width:  99.5%;
+  height: 95%;
+  display: inline-block;
+  overflow: auto;
+}
+
+#uno {
+  background-color: rgb(25, 25, 167);
+}
+
+#dos {
+  background-color: rgb(26, 107, 96);
+}
+
+#tres {
+  background-color: rgb(235, 111, 9);
+}
+
+#cuatro {
+  background-color: rgb(199, 164, 201);
+}

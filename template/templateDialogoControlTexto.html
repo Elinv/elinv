@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+</head>
+
+<body>
+    <div id="dialogCreacTexto" title="Basic dialog">
+        <input type="text" id='inputDialCrearTexto' />
+        <label for="opcionesDialCrearTexto">Elemento a crear:</label>
+        <select id="opcionesDialCrearTexto">
+            <option value="b">b</option>
+            <option value="code">code</option>
+            <option value="del">del</option>
+            <option value="div">div</option>            
+            <option value="em">em</option>
+            <option value="h1">h1</option>
+            <option value="h2">h2</option>
+            <option value="h3">h3</option>
+            <option value="h4">h4</option>
+            <option value="h5">h5</option>
+            <option value="h6">h6</option>
+            <option value="ins">ins</option>
+            <option value="i">i</option>
+            <option value="kbd">kbd</option>
+            <option value="label">label</option>            
+            <option value="p">p</option>            
+            <option value="samp">samp</option>
+            <option value="strong">strong</option>
+            <option value="var">var</option>
+        </select>
+        <!-- <input type="text" id='inputtwo' />
+        <button onclick="aceptar();">Aceptar</button> -->
+    </div>
+    <script>
+        var dialogoCrearTexto = () => {
+            //includeHTML('templateDialogoControlTexto.html');
+            $(function () {
+                $("#dialogCreacTexto").dialog({
+                    open: function (event, ui) {
+                        document.getElementById('inputDialCrearTexto').value = "";
+                    },
+                    close: function (event, ui) { },
+                    autoOpen: false,
+                    modal: true,
+                    closeOnEscape: true,
+                    show: {
+                        effect: "blind",
+                        duration: 1000
+                    },
+                    hide: {
+                        effect: "explode",
+                        duration: 1000
+                    },
+                    buttons: {
+                        Aceptar: function () {
+                            let res = aceptar();
+                            if (res == 0) {
+                                $(this).dialog("close");
+                            }
+                        },
+                        Salir: function () {
+                            $(this).dialog("close");
+                        }
+                    }
+                });
+
+                // crear elemento con texto en su interior
+                function crearElemYTextNode(elemento, texto) {
+                    // crea un nuevo div 
+                    // y añade contenido 
+                    let newDiv = document.createElement(elemento);
+                    let newContent = document.createTextNode(texto);
+                    newDiv.appendChild(newContent); //añade texto al div creado. 
+                    return newDiv;
+                }
+
+                aceptar = function () {
+                    let result = document.getElementById('inputDialCrearTexto').value;
+                    if (isEmptyOrSpaces(result)) {
+                        alert("No ha ingresado datos.");
+                        return 1;
+                    }
+                    var x = document.getElementById("opcionesDialCrearTexto").selectedIndex;
+                    var y = document.getElementById("opcionesDialCrearTexto").options;
+                    //alert("Index: " + y[x].index + " is " + y[x].text);                
+                    // creamos
+                    let newDiv = crearElemYTextNode(y[x].text, result);
+                    newDiv.className = "objMovible";
+                    newDiv.setAttribute("style", "position: absolute;z-index:10;width:auto;height:auto; maxWidth: 300px; maxHheight: 60px;left: 19px; top: 23px;");
+
+                    if (y[x].text === 'label'){
+                        // preguntamos por el id destino para el parámetro para for
+                        let forParam = prompt("Ingrese id destino para el atributo for", "id_destino");
+                        if (forParam == null || forParam == "" || forParam == 'id_destino') {
+                            forParam = randId();
+                        }
+                        newDiv.setAttribute("for", forParam);
+                    }
+                    // añade el elemento creado y su contenido al DOM 
+                    let currentDiv = document.getElementById("contenedor1");
+                    currentDiv.appendChild(newDiv);
+                    return 0;
+                }
+            });
+        };
+    </script>
+</body>
+
+</html>

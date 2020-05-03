@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+</head>
+
+<body>
+    <div id="dialogCreaInputs" title="Basic dialog">
+        <label for="inputDialCrearInputs">Ingrese text/value:</label>
+        <input type="text" id='inputDialCrearInputs' />
+        <p></p>
+        <label for="opcionesDialCrearInputs">Elemento a crear:</label>
+        <select id="opcionesDialCrearInputs">
+            <option value="button">button</option>            
+            <option value="checkbox">checkbox</option>
+            <option value="label">label</option>            
+            <option value="list">list</option>
+            <option value="color">color</option>
+            <option value="date">date</option>
+            <option value="datetime-local">datetime-local</option>
+            <option value="email">email</option>
+            <option value="file">file</option>
+            <option value="hidden">hidden</option>
+            <option value="image">image</option>
+            <option value="month">month</option>
+            <option value="number">number</option>
+            <option value="password">password</option>
+            <option value="radio">radio</option>
+            <option value="range">range</option>
+            <option value="reset">reset</option>
+            <option value="search">search</option>
+            <option value="submit">submit</option>
+            <option value="tel">tel</option>
+            <option value="text">text</option>
+            <option value="time">time</option>
+            <option value="url">url</option>
+            <option value="week">week</option>
+        </select>
+        <p></p>
+        <label for="opcionesDialEventosInputs">Desea asignar algun evento:</label>
+        <select id="opcionesDialEventosInputs">
+            <option value="onclick">onclick</option>
+            <option value="onchange">onchange</option>
+            <option value="onmouseover">onmouseover</option>
+            <option value="onmouseout">onmouseout</option>
+            <option value="onmousedown">onmousedown</option>
+            <option value="onmouseup">onmouseup</option>
+            <option value="onfocus">onfocus</option>
+            <option value="onfocusout">onfocusout</option>
+        </select>
+        <!-- <input type="text" id='inputtwo' />
+        <button onclick="aceptar();">Aceptar</button> -->
+    </div>
+    <script>
+        var dialogCreaInputs = () => {
+            //includeHTML('templateDialogoControlTexto.html');
+            $(function () {
+                $("#dialogCreaInputs").dialog({
+                    open: function (event, ui) {
+                        document.getElementById('inputDialCrearInputs').value = "";
+                    },
+                    close: function (event, ui) { },
+                    autoOpen: false,
+                    modal: true,
+                    closeOnEscape: true,
+                    show: {
+                        effect: "blind",
+                        duration: 1000
+                    },
+                    hide: {
+                        effect: "explode",
+                        duration: 1000
+                    },
+                    buttons: {
+                        Aceptar: function () {
+                            let res = aceptar();
+                            if (res == 0) {
+                                $(this).dialog("close");
+                            }
+                        },
+                        Salir: function () {
+                            $(this).dialog("close");
+                        }
+                    }
+                });
+
+                aceptar = function () {
+                    let result = document.getElementById('inputDialCrearInputs').value;
+                    if (isEmptyOrSpaces(result)) {
+                        alert("No ha ingresado datos.");
+                        //return 1;
+                    }
+                    var x = document.getElementById("opcionesDialCrearInputs").selectedIndex;
+                    var y = document.getElementById("opcionesDialCrearInputs").options;
+                    var inputControl = document.createElement("INPUT");
+                    inputControl.setAttribute("type", y[x].text);
+                    inputControl.id = randId();
+
+                    //.attributes("required", "true/false"); 
+
+                    // type controls
+                    if (y[x].text == 'button' || y[x].text == 'checkbox' ||
+                        y[x].text == 'color' || y[x].text == 'date' ||
+                        y[x].text == 'image' || y[x].text == 'number' ||
+                        y[x].text == 'password' || y[x].text == 'search' || 
+                        y[x].text == 'text' || y[x].text == 'email' || 
+                        y[x].text == 'tel' || y[x].text == 'label') {
+                        
+                            // por defecto si es un input type label
+                        // ------------------------------------------------
+                        if (y[x].text == 'label') {
+                            inputControl.setAttribute("placeholder", result);
+                            inputControl.setAttribute("for", randId());
+                            // preguntamos por el patrón a analizar
+                            let patron = prompt("Ingrese su patrón personalizado!", "ford|citroen|mazda");
+                            if (patron == null || patron == "") {
+                                patron = "banana|manzana|pera";
+                            }
+                            inputControl.setAttribute("pattern", patron);
+                            inputControl.setAttribute("title", "Opciones válidas a ingresar");
+                            //css
+                            // input:invalid {border: 3px solid red;}
+                            // input:valid {border: 3px solid green;}
+                        }
+
+                        // por defecto si es un input type tel
+                        // ------------------------------------------------
+                        if (y[x].text == 'tel') {
+                            inputControl.setAttribute("placeholder", result);
+                            inputControl.setAttribute("name", randId());
+                            inputControl.setAttribute("pattern", "[0-9]{4}-[0-9]{2}-[0-9]{4}");
+                            inputControl.setAttribute("title", "Format: 2342-45-6789");                            
+                        }
+
+                        // por defecto si es un input type email
+                        // ------------------------------------------------
+                        if (y[x].text == 'email') {
+                            inputControl.setAttribute("placeholder", result);
+                        }
+
+                        // por defecto si es un input type text
+                        // ------------------------------------------------
+                        if (y[x].text == 'text') {
+                            inputControl.setAttribute("placeholder", result);
+                        }
+
+                        // color rojo por defecto si es un input type color
+                        // ------------------------------------------------
+                        if (y[x].text == 'color') {
+                            inputControl.setAttribute("value", "#ff0080");
+                        }
+
+                        // fecha por defecto la actual
+                        // ------------------------------------------------                        
+                        if (y[x].text == 'date') {
+                            let f = new Date();
+                            //let fech = f.getDate() + "-" + (f.getMonth() +1) + "-" + f.getFullYear();
+                            let mes = f.getMonth() + 1;
+                            let fech;
+                            if (mes < 10) {
+                                fech = f.getFullYear() + "-0" + (f.getMonth() + 1) + "-" + f.getDate();
+                            } else if (f.getMonth() + 1 > 9) {
+                                fech = f.getFullYear() + "-" + (f.getMonth() + 1) + "-" + f.getDate();
+                            }
+                            inputControl.setAttribute("value", fech);
+                        }
+
+                        // Por defecto si es un input type image
+                        // ------------------------------------------------
+                        if (y[x].text == 'image') {
+                            inputControl.setAttribute("src", "./img/img_submit.gif");
+                            inputControl.setAttribute("width", "48");
+                            inputControl.setAttribute("height", "48");
+                            inputControl.setAttribute("alt", "Submit");
+                        }
+
+                        // Por defecto si es un input type number
+                        // ------------------------------------------------
+                        if (y[x].text == 'number') {
+                            inputControl.setAttribute("name", randId());
+                            inputControl.setAttribute("min", "1");
+                            inputControl.setAttribute("max", "10");
+                            inputControl.setAttribute("value", "5");
+                        }
+
+                        // Por defecto si es un input type password
+                        // ------------------------------------------------
+                        if (y[x].text == 'password') {
+                            inputControl.setAttribute("name", randId());
+                            inputControl.setAttribute("placeholder", "********");
+                            inputControl.setAttribute("pattern", "\w{8}");
+                            inputControl.setAttribute("title", "8 character password");
+                        }
+
+                        // Por defecto si es un input type range
+                        // ------------------------------------------------
+                        if (y[x].text == 'range') {
+                            inputControl.setAttribute("name", randId());
+                            inputControl.setAttribute("min", "1");
+                            inputControl.setAttribute("max", "10");
+                            inputControl.setAttribute("value", "5");
+                            inputControl.setAttribute("title", "Estado de mi input");
+                        }
+
+                        // Por defecto si es un input type search
+                        // ------------------------------------------------
+                        if (y[x].text == 'search') {
+                            inputControl.setAttribute("name", randId());
+                            inputControl.setAttribute("placeholder", "User IDs are 4–8 characters in length");
+                            inputControl.setAttribute("size", "30");
+                            inputControl.setAttribute("minlength", "4");
+                            inputControl.setAttribute("minlength", "8");
+                            inputControl.setAttribute("title", "Estado de mi input");
+                        }
+
+                        // eventos se asigna
+                        // ------------------------------------------------                        
+                        let x1 = document.getElementById("opcionesDialEventosInputs").selectedIndex;
+                        let y1 = document.getElementById("opcionesDialEventosInputs").options;
+                        inputControl.setAttribute(y1[x1].text, "console.log('" + y1[x1].text + "')");
+                    }
+                    // <input type="color" id="myColor" value="#ff0080">
+                    //inputControl.setAttribute("value", result);
+                    //inputControl.placeholder = result;
+
+
+                    // por defecto si es un input type list
+                    // ------------------------------------------------
+                    if (y[x].text == 'list') {
+                        let code = `<div class="objMovible" style="position: absolute;z-index:10;width:380px;height:20px; maxWidth: 600px; maxHheight: 60px;left: 19px; top: 23px;"><form action="/action_page.php" method="get">
+  <input list="browsers" name="browser">
+  <datalist id="browsers">
+    <option value="Internet Explorer">
+    <option value="Firefox">
+    <option value="Chrome">
+    <option value="Opera">
+    <option value="Safari">
+  </datalist>
+  <input type="submit">
+</form></div>`.toDOM();
+
+                        // añade el elemento creado y su contenido al DOM 
+                        let currentDiv = document.getElementById("contenedor1");
+                        currentDiv.appendChild(code);
+                        return 0;
+                    }
+
+
+                    // Estilo
+                    inputControl.className = "objMovible";
+                    // Si es un input type color
+                    if (y[x].text == 'color') {
+                        inputControl.setAttribute("style", "position: absolute;z-index:10;width:100px;height:20px; maxWidth: 300px; maxHheight: 60px;left: 19px; top: 23px;");
+                    } else {
+                        inputControl.setAttribute("style", "position: absolute;z-index:10;width:auto;height:auto; maxWidth: 300px; maxHheight: 60px;left: 19px; top: 23px;");
+                    }
+                    // tamaño si es un date
+                    if (y[x].text == 'date') {
+                        inputControl.setAttribute("style", "position: absolute;z-index:10;width:150px;height:20px; maxWidth: 300px; maxHheight: 60px;left: 19px; top: 23px;");
+                    }
+                    // añade el elemento creado y su contenido al DOM 
+                    let currentDiv = document.getElementById("contenedor1");
+                    currentDiv.appendChild(inputControl);
+                    return 0;
+                }
+            });
+        };
+    </script>
+</body>
+
+</html>
