@@ -27,6 +27,9 @@
 >------------
 - Seguidamente agregaremos un gif que estamos grabando, para una mejor ilustración.
 >------------
+>Si bajas y deseas usar este generador de formularios en forma local, no funcionará si no lo haces desde un servidor web local, como XAMPP o LAMPP.
+>Recuerda correrlo en tu localhost
+>------------
 - Atentamente.:+1:
 - Dios te bendiga!
 
